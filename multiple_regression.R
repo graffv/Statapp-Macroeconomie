@@ -28,16 +28,16 @@ make_regression <- function(trade, df){
     model_iv_distance <- ivreg(df[regres][[1]] ~ df[trade][[1]] | distance, data = data)
     model_iv_adjacent <- ivreg(df[regres][[1]] ~ df[trade][[1]] | adjacent, data = data)
     model_iv_ling <- ivreg(df[regres][[1]] ~ df[trade][[1]] | ling, data = data)
-    hash_regressand1[regres] <- c(model_regres$coefficients[1])
-    hash_regressand2[regres] <- c(model_regres$coefficients[2])
     
     # Store all values in lists
+    hash_regressand1[regres] <- c(model_regres$coefficients[1])
+    hash_regressand2[regres] <- c(model_regres$coefficients[2])
     hash_regressand_iv1_distance[regres] <- c(model_iv_distance$coefficients[1])
     hash_regressand_iv2_distance[regres] <- c(model_iv_distance$coefficients[2])
-    hash_regressand_iv1_adjacent[regres] <- c(model_iv_distance$coefficients[1])
-    hash_regressand_iv2_adjacent[regres] <- c(model_iv_distance$coefficients[2])
-    hash_regressand_iv1_ling[regres] <- c(model_iv_distance$coefficients[1])
-    hash_regressand_iv2_ling[regres] <- c(model_iv_distance$coefficients[2])
+    hash_regressand_iv1_adjacent[regres] <- c(model_iv_adjacent$coefficients[1])
+    hash_regressand_iv2_adjacent[regres] <- c(model_iv_adjacent$coefficients[2])
+    hash_regressand_iv1_ling[regres] <- c(model_iv_ling$coefficients[1])
+    hash_regressand_iv2_ling[regres] <- c(model_iv_ling$coefficients[2])
   }
   # Creating matrix of lists to gather all coefficients
   combi = matrix(c(hash_regressand1, hash_regressand2, hash_regressand_iv1_distance, hash_regressand_iv2_distance,
