@@ -5,6 +5,8 @@ library(sandwich)
 library(lmtest)
 
 data = read.csv("/Users/victorgraff/Documents/2022:2023 ENSAE/Cours/Statapps/data_StatApp/data_FR_enhanced_dummies.csv")
+data["distance"] <- log(data["distance"])
+
 data_period1 = subset(data, period==1)
 data_periodNot2 = subset(data, period!=2)
 data_periodNot3 = subset(data, period!=3)
@@ -32,10 +34,10 @@ make_regression <- function(trade, df){
     model_iv_complete <- ivreg(df[regres][[1]] ~ df[trade][[1]] | distance + adjacent + ling, data=data)
 
     # Store all values in lists
-    hash_regressand1[regres] <- c(model_regres$coefficients[1])
+    #hash_regressand1[regres] <- c(model_regres$coefficients[1])
     hash_regressand2[regres] <- c(model_regres$coefficients[2])
     
-    hash_regressand_iv1[regres] <- c(model_iv_complete$coefficients[1])
+    #hash_regressand_iv1[regres] <- c(model_iv_complete$coefficients[1])
     hash_regressand_iv2[regres] <- c(model_iv_complete$coefficients[2])
     
     # store Std
@@ -45,11 +47,11 @@ make_regression <- function(trade, df){
   }
   # Creating matrix of lists to gather all coefficients
 
-  combi <- matrix(c(hash_regressand1, hash_regressand2,
-                    hash_regressand_iv1, hash_regressand_iv2,
+  combi <- matrix(c(hash_regressand2,
+                    hash_regressand_iv2,
                     hash_std_lm,
                     hash_std_lm_robust, hash_std_lm_robust_cluster),
-                  ncol=7, nrow=20)
+                  ncol=5, nrow=20)
   return(combi)
 }
 
